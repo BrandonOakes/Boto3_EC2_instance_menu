@@ -1,53 +1,30 @@
 import boto3
+from instance_session import user_instance, instance_current_state
+from instance_session import display_current_state, start_instance, stop_instance
+from menu_options import main_menu
+from helper_functions import clear
 
-#get IAM user
 
-iam_user = input("Enter your Identity Access Management user profile: ")
+user_choice = main_menu()
 
-#get to AWS management console
+clear()
 
-aws_console = boto3.session.Session(profile_name=iam_user)
+if user_choice == 3:
 
-#get to ec2 web service console
+    quit()
 
-ec2_resource = aws_console.resource('ec2')
+#get ec2 instance object
 
-#get instance id
-
-ec2_id = input("Enter the EC2 instance Id you would like to look up: ")
-
-#get specified ec2 instance
-
-ec2_instance = ec2_resource.Instance(id=ec2_id)
-
-#get ec2 instance state
-
-ec2_state = ec2_instance.state
+ec2_instance = user_instance()
 
 #get name of ec2 instance state (state will return a dictionary)
 
-ec2_state_name = ec2_state['Name']
+display_current_state(ec2_instance)
 
-#print ec2 instance state
+if user_choice == 1:
 
-print(f"Current ec2 instance state: {ec2_state_name}")
+    start_instance(ec2_instance)
 
-if ec2_state_name == 'running':
-    ec2_action = input("Do you want to stop your instance?\n(Yes/No): ").lower()
-    if ec2_action == 'yes':
-        ec2_instance.stop()
-        print("Your instance is stopping....one moment")
-        ec2_instance.wait_until_stopped()
-        print(f"Current ec2 instance state: {ec2_instance.state['Name']}")
-    else:
-        print("Hope this script was helpful, have a nice day")
+elif user_choice ==2:
 
-elif ec2_state_name == 'stopped':
-    ec2_action = input("Do you want to start your instance?\n(Yes/No): ").lower()
-    if ec2_action == 'yes':
-        ec2_instance.start()
-        print("Your instance is starting up....one moment")
-        ec2_instance.wait_until_running()
-        print(f"Current ec2 instance state: {ec2_instance.state['Name']}")
-    else:
-        print("Hope this script was helpful, have a nice day")
+    stop_instance(ec2_instance)
