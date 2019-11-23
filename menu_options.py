@@ -1,6 +1,5 @@
 import boto3
 
-
 def main_menu():
     ''''Main menu options'''
 
