@@ -46,6 +46,6 @@ You will be given the following options, fill them out accordingly:
 
     pip3 install -r requirements.txt
 
-**6.** Now run  ```python3 ec2_instance_menu.py``` and you are good to go.
+**6.** Now run  ```python3 app.py``` and you are good to go.
 
 ### Disfrutar
