@@ -1,6 +1,6 @@
 import boto3
 from helper_functions import input_n_clear
-from instance_session import display_current_state, instance_current_state \
+from instance_session import display_current_state, instance_current_state, \
                              start_instance, stop_instance, user_instance
 from menu_options import main_menu
 
