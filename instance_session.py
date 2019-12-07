@@ -4,12 +4,19 @@ from helper_functions import input_n_clear
 def user_instance():
     '''Creates boto3 session and ec2 instance object
        from user input'''
-    iam_user = input_n_clear(
+    wrongProfileName = True
+    while wrongProfileName:
+        iam_user = input_n_clear(
     ''' Enter your Identity Access Management user profile: ''')
-    aws_console = boto3.session.Session(profile_name=iam_user) #AWS management console object
+        try:
+            aws_console = boto3.session.Session(profile_name=iam_user) #AWS management console object
+            wrongProfileName = False
+        except Exception as e:
+            print(e, '''\n
+Please try again or press ctrl + c to exit\n''')
     ec2_resource = aws_console.resource('ec2') #AWS ec2 object
     ec2_id = input_n_clear(
-    '''Enter the EC2 instance Id you would like to look up: ''')
+'''Enter the EC2 instance Id you would like to look up: ''')
     ec2_instance = ec2_resource.Instance(id=ec2_id) #get specified ec2 instance
     return ec2_instance
 
